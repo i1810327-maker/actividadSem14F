@@ -48,8 +48,8 @@ class PPersona:
             apellidoPaterno = st.text_input("Apellido Paterno", value=st.session_state.apellidoPaterno_sesion, max_chars=50, help="Ingrese su apellido paterno, nada de números.", placeholder="Ejem: Pérez")
             apellidoMaterno = st.text_input("Apellido Materno", value=st.session_state.apellidoMaterno_sesion, max_chars=50, help="Ingrese su apellido materno, nada de números.", placeholder="Ejem: Gómez")
             fechaNacimiento = st.date_input("Fecha de Nacimiento", value=st.session_state.fechaNacimiento_sesion, help="Seleccione su fecha de nacimiento.", max_value=date.today())
-            correoEscuela = st.text_input("Correo de la Escuela", value=st.session_state.correoEscuela_sesion, help="Ingrese su correo institucional.", placeholder="Ejem: 12345678@davidhouse.edu.pe")
-            contraseniaEscuela = st.text_input("Contraseña de la Escuela", value=st.session_state.contraseniaEscuela_sesion, type="password", help="Ingrese su contraseña institucional.")
+            correoEscuela = st.text_input("Correo de la Escuela", value=st.session_state.correoEscuela_sesion, help="Ingrese su correo institucional.", placeholder="Ejem: 12345678@davidhouse.edu.pe", max_chars=110)
+            contraseniaEscuela = st.text_input("Contraseña de la Escuela", value=st.session_state.contraseniaEscuela_sesion, type="password", help="Ingrese su contraseña institucional.", max_chars=50)
             if st.session_state.persona_seleccionada != '':
                 btnActualizar = st.form_submit_button("Actualizar Estudiante", type="primary")
                 if btnActualizar:
