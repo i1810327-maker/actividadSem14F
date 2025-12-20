@@ -43,13 +43,13 @@ class PPersona:
             st.session_state.contraseniaEscuela_sesion = st.session_state.persona_seleccionada['contrasenia_escuela']
         
         with st.form(f"Formulario de Estudiantes {st.session_state.formularioKey}"):
-            docIdentidad = st.text_input("Documento de Identidad", value=st.session_state.docIdentidad_sesion, disabled=st.session_state.persona_seleccionada != '', max_chars=8)
-            nombres = st.text_input("Nombres", value=st.session_state.nombres_sesion, max_chars=70)
-            apellidoPaterno = st.text_input("Apellido Paterno", value=st.session_state.apellidoPaterno_sesion, max_chars=50)
-            apellidoMaterno = st.text_input("Apellido Materno", value=st.session_state.apellidoMaterno_sesion, max_chars=50)
-            fechaNacimiento = st.date_input("Fecha de Nacimiento", value=st.session_state.fechaNacimiento_sesion)
-            correoEscuela = st.text_input("Correo de la Escuela", value=st.session_state.correoEscuela_sesion)
-            contraseniaEscuela = st.text_input("Contraseña de la Escuela", value=st.session_state.contraseniaEscuela_sesion)
+            docIdentidad = st.text_input("Documento de Identidad", value=st.session_state.docIdentidad_sesion, disabled=st.session_state.persona_seleccionada != '', max_chars=8, help="Ingrese su DNI sin puntos ni guiones, Solo números.", key="docIdentidad_input", placeholder="Ejem: 12345678")
+            nombres = st.text_input("Nombres", value=st.session_state.nombres_sesion, max_chars=70, help="Ingrese sus nombres completos, separados por espacios y nada de números.", placeholder="Ejem: Juan Carlos")
+            apellidoPaterno = st.text_input("Apellido Paterno", value=st.session_state.apellidoPaterno_sesion, max_chars=50, help="Ingrese su apellido paterno, nada de números.", placeholder="Ejem: Pérez")
+            apellidoMaterno = st.text_input("Apellido Materno", value=st.session_state.apellidoMaterno_sesion, max_chars=50, help="Ingrese su apellido materno, nada de números.", placeholder="Ejem: Gómez")
+            fechaNacimiento = st.date_input("Fecha de Nacimiento", value=st.session_state.fechaNacimiento_sesion, help="Seleccione su fecha de nacimiento.", max_value=date.today())
+            correoEscuela = st.text_input("Correo de la Escuela", value=st.session_state.correoEscuela_sesion, help="Ingrese su correo institucional.", placeholder="Ejem: 12345678@davidhouse.edu.pe")
+            contraseniaEscuela = st.text_input("Contraseña de la Escuela", value=st.session_state.contraseniaEscuela_sesion, type="password", help="Ingrese su contraseña institucional.")
             if st.session_state.persona_seleccionada != '':
                 btnActualizar = st.form_submit_button("Actualizar Estudiante", type="primary")
                 if btnActualizar:
