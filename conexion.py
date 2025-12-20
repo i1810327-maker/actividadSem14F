@@ -7,8 +7,8 @@ class ConexionDB:
         load_dotenv()
 
     def conexionSupabase(self):
-        url = os.getenv("URL_SUPABASE")
-        api_key = os.getenv("SUPABASE_API_KEY")
+        url = os.getenv("SUPABASE_URL")
+        api_key = os.getenv("SUPABASE_APIKEY")
 
         supabase = create_client(url, api_key)
         return supabase
