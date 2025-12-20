@@ -44,9 +44,9 @@ class PPersona:
         
         with st.form(f"Formulario de Estudiantes {st.session_state.formularioKey}"):
             docIdentidad = st.text_input("Documento de Identidad", value=st.session_state.docIdentidad_sesion, disabled=st.session_state.persona_seleccionada != '', max_chars=8)
-            nombres = st.text_input("Nombres", value=st.session_state.nombres_sesion)
-            apellidoPaterno = st.text_input("Apellido Paterno", value=st.session_state.apellidoPaterno_sesion)
-            apellidoMaterno = st.text_input("Apellido Materno", value=st.session_state.apellidoMaterno_sesion)
+            nombres = st.text_input("Nombres", value=st.session_state.nombres_sesion, max_chars=70)
+            apellidoPaterno = st.text_input("Apellido Paterno", value=st.session_state.apellidoPaterno_sesion, max_chars=50)
+            apellidoMaterno = st.text_input("Apellido Materno", value=st.session_state.apellidoMaterno_sesion, max_chars=50)
             fechaNacimiento = st.date_input("Fecha de Nacimiento", value=st.session_state.fechaNacimiento_sesion)
             correoEscuela = st.text_input("Correo de la Escuela", value=st.session_state.correoEscuela_sesion)
             contraseniaEscuela = st.text_input("Contraseña de la Escuela", value=st.session_state.contraseniaEscuela_sesion)
