@@ -18,7 +18,6 @@ class PPersona:
             st.session_state.apellidoPaterno_sesion = ''
         if 'apellidoMaterno_sesion' not in st.session_state:
             st.session_state.apellidoMaterno_sesion = ''
-        # CORREGIDO: Inicializar fechaNacimiento_sesion
         if 'fechaNacimiento_sesion' not in st.session_state:
             st.session_state.fechaNacimiento_sesion = date.today()
         if 'correoEscuela_sesion' not in st.session_state:
@@ -77,7 +76,6 @@ class PPersona:
             else:
                 btnRegistrar = st.form_submit_button("Registrar Estudiante", type="primary")
                 if btnRegistrar:
-                    # Validación de campos vacíos
                     if not all([
                         docIdentidad.strip(),
                         nombres.strip(),
