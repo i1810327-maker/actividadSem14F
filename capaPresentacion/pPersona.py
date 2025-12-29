@@ -181,7 +181,6 @@ class PPersona:
             st.session_state.apellidoPaterno_sesion = ''
         if 'apellidoMaterno_sesion' not in st.session_state:
             st.session_state.apellidoMaterno_sesion = ''
-        # CORREGIDO: Inicializar fechaNacimiento_sesion
         if 'fechaNacimiento_sesion' not in st.session_state:
             st.session_state.fechaNacimiento_sesion = date.today()
         if 'correoEscuela_sesion' not in st.session_state:
@@ -192,13 +191,11 @@ class PPersona:
 
     def __construirInterfaz(self):
         st.title("Registro de Estudiantes")
-        # CORREGIDO: Solo acceder si es diccionario y tiene datos
         if st.session_state.persona_seleccionada != '' and isinstance(st.session_state.persona_seleccionada, dict):
             st.session_state.docIdentidad_sesion = st.session_state.persona_seleccionada['dni']
             st.session_state.nombres_sesion = st.session_state.persona_seleccionada['nombres']
             st.session_state.apellidoPaterno_sesion = st.session_state.persona_seleccionada['apellidopaterno']
             st.session_state.apellidoMaterno_sesion = st.session_state.persona_seleccionada['apellidomaterno']
-            # CORREGIDO: Manejar conversión de fecha
             fecha_str = st.session_state.persona_seleccionada['fecha_nacimiento']
             if isinstance(fecha_str, str):
                 st.session_state.fechaNacimiento_sesion = date.fromisoformat(fecha_str)
@@ -280,7 +277,6 @@ class PPersona:
                 btnEliminar = st.button('Eliminar Estudiante')
 
                 if btnEditar:
-                    # CORREGIDO: Guardar el diccionario completo, no solo el DNI
                     st.session_state.persona_seleccionada = personaSeleccionadaIndice
                     st.rerun() 
 
