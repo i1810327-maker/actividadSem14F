@@ -18,7 +18,6 @@ class PPersona:
             st.session_state.apellidoPaterno_sesion = ''
         if 'apellidoMaterno_sesion' not in st.session_state:
             st.session_state.apellidoMaterno_sesion = ''
-        # CORREGIDO: Inicializar fechaNacimiento_sesion
         if 'fechaNacimiento_sesion' not in st.session_state:
             st.session_state.fechaNacimiento_sesion = date.today()
         if 'correoEscuela_sesion' not in st.session_state:
@@ -29,13 +28,11 @@ class PPersona:
 
     def __construirInterfaz(self):
         st.title("Registro de Estudiantes")
-        # CORREGIDO: Solo acceder si es diccionario y tiene datos
         if st.session_state.persona_seleccionada != '' and isinstance(st.session_state.persona_seleccionada, dict):
             st.session_state.docIdentidad_sesion = st.session_state.persona_seleccionada['dni']
             st.session_state.nombres_sesion = st.session_state.persona_seleccionada['nombres']
             st.session_state.apellidoPaterno_sesion = st.session_state.persona_seleccionada['apellidopaterno']
             st.session_state.apellidoMaterno_sesion = st.session_state.persona_seleccionada['apellidomaterno']
-            # CORREGIDO: Manejar conversión de fecha
             fecha_str = st.session_state.persona_seleccionada['fecha_nacimiento']
             if isinstance(fecha_str, str):
                 st.session_state.fechaNacimiento_sesion = date.fromisoformat(fecha_str)
@@ -50,35 +47,56 @@ class PPersona:
             fechaNacimiento = st.date_input("Fecha de Nacimiento", value=st.session_state.fechaNacimiento_sesion, help="Seleccione su fecha de nacimiento.", max_value=date.today())
             correoEscuela = st.text_input("Correo de la Escuela", value=st.session_state.correoEscuela_sesion, help="Ingrese su correo institucional.", placeholder="Ejem: 12345678@davidhouse.edu.pe", max_chars=110)
             contraseniaEscuela = st.text_input("Contraseña de la Escuela", value=st.session_state.contraseniaEscuela_sesion, type="password", help="Ingrese su contraseña institucional.", max_chars=50)
+            
             if st.session_state.persona_seleccionada != '':
                 btnActualizar = st.form_submit_button("Actualizar Estudiante", type="primary")
                 if btnActualizar:
-                    persona = {
-                        "dni": docIdentidad,
-                        "nombres": nombres,
-                        "apellidopaterno": apellidoPaterno,
-                        "apellidomaterno": apellidoMaterno,
-                        "fecha_nacimiento": fechaNacimiento.isoformat(),
-                        "correo_escuela": correoEscuela,
-                        "contrasenia_escuela": contraseniaEscuela
-                    }
-                    self.actualizarPersona(persona, docIdentidad)
-
+                    # Validación de campos vacíos
+                    if not all([
+                        docIdentidad.strip(),
+                        nombres.strip(),
+                        apellidoPaterno.strip(),
+                        apellidoMaterno.strip(),
+                        correoEscuela.strip(),
+                        contraseniaEscuela.strip()
+                    ]):
+                        st.error("Todos los campos son obligatorios. Por favor, complete la información faltante.")
+                    else:
+                        persona = {
+                            "dni": docIdentidad.strip(),
+                            "nombres": nombres.strip(),
+                            "apellidopaterno": apellidoPaterno.strip(),
+                            "apellidomaterno": apellidoMaterno.strip(),
+                            "fecha_nacimiento": fechaNacimiento.isoformat(),
+                            "correo_escuela": correoEscuela.strip(),
+                            "contrasenia_escuela": contraseniaEscuela.strip()
+                        }
+                        self.actualizarPersona(persona, docIdentidad.strip())
 
             else:
                 btnRegistrar = st.form_submit_button("Registrar Estudiante", type="primary")
-
                 if btnRegistrar:
-                    persona = {
-                        "dni": docIdentidad,
-                        "nombres": nombres,
-                        "apellidopaterno": apellidoPaterno,
-                        "apellidomaterno": apellidoMaterno,
-                        "fecha_nacimiento": fechaNacimiento.isoformat(),
-                        "correo_escuela": correoEscuela,
-                        "contrasenia_escuela": contraseniaEscuela
-                    }
-                    self.nuevaPersona(persona)
+                    if not all([
+                        docIdentidad.strip(),
+                        nombres.strip(),
+                        apellidoPaterno.strip(),
+                        apellidoMaterno.strip(),
+                        correoEscuela.strip(),
+                        contraseniaEscuela.strip()
+                    ]):
+                        st.error("Todos los campos son obligatorios. Por favor, complete la información faltante.")
+                    else:
+                        persona = {
+                            "dni": docIdentidad.strip(),
+                            "nombres": nombres.strip(),
+                            "apellidopaterno": apellidoPaterno.strip(),
+                            "apellidomaterno": apellidoMaterno.strip(),
+                            "fecha_nacimiento": fechaNacimiento.isoformat(),
+                            "correo_escuela": correoEscuela.strip(),
+                            "contrasenia_escuela": contraseniaEscuela.strip()
+                        }
+                        self.nuevaPersona(persona)
+        
         self.mostrarPersona()
 
     def mostrarPersona(self):
@@ -95,13 +113,13 @@ class PPersona:
                 btnEliminar = st.button('Eliminar Estudiante')
 
                 if btnEditar:
-                    # CORREGIDO: Guardar el diccionario completo, no solo el DNI
                     st.session_state.persona_seleccionada = personaSeleccionadaIndice
                     st.rerun() 
 
                 if btnEliminar:
                     self.eliminarPersona(personaSeleccionadaIndice['dni'])
                     st.rerun()
+                    
     def nuevaPersona(self, persona: dict):
         try:
             self.__lPersona.nuevaPersona(persona)
@@ -127,12 +145,9 @@ class PPersona:
             self.__lPersona.eliminarPersona(docIdentidad)
             st.toast("Registro eliminado exitosamente.", duration='short')
 
-
         except Exception as e:    
             st.error(e)
             st.toast('Eliminación fallida')
-        self.__lPersona.eliminarPersona(docIdentidad)
-
 
     def limpiar(self):
        st.session_state.formularioKey += 1
